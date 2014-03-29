@@ -1,49 +1,13 @@
 <?php
 
 /*
- * Memangil class foursquare dan menyimpan hasilnya ke dalam file
- * 
- * @param $token untuk mengakses Foursquare API
- * 
- * @versi 0.1
- * @tanggal 25/03/14 
- * @penulis Andi Saleh
- */
-
-function fsq($token) {
-	// Set waktu kadaluarsa, lokasi file cache, dan waktu pembuatannya
-	$cachetime = 60*5; // 5 menit
-	$cache_file = dirname(__FILE__) . '/checkin.txt';
-	$cache_file_created  = ((file_exists($cache_file))) ? filemtime($cache_file) : 0;
-	// Periska bila file telah kadaluarsa
-	if (time() - $cache_file_created > $cachetime ) {
-		// Inisiasi data baru
-		$fsq = new foursquare($token);
-		// Hanya lanjut jika Fousquare tidak down dan data ditemukan
-		if($fsq->venueID != '') {
-			// Simpan data checkin ke file
-			$fqcheckin = serialize($fsq);
-			file_put_contents($cache_file, $fqcheckin);
-		} 
-	}
-	/*
-	 * Tarik data dan peta dari file cache
-	 * Data tetap ditarik diluar fungsi `if` di atas karena jika waktu kadaluarsa
-	 * telah lewat namun data checkin baru gagal ditemukan, kita masih bisa
-	 * menampilkan data lama dari cahce
-	 */
-	$fqcheckin = file_get_contents($cache_file);
-	$fqcheckin = unserialize($fqcheckin);
-	return $fqcheckin;
-}
-
-/*
- * Menghubungkan ke akun Foursquare dan menampilkan data chekin terakhir beserta Google Map dan menampilkannya di halaman
+ * Menghubungkan ke akun Foursquare dan menampilkan data chekin terakhir
  * Modifikasi class foursquare-php dari Elie Bursztein http://elie.im / @elie di Twitter
  * Penulis: Andi Saleh http://andisaleh.com / @andisaleh di Twitter
  * 
  * Versi: 0.1
  * Licensi: GPL v3
+ * @penulis Andi Saleh
  */
 
 class foursquare {
@@ -169,15 +133,15 @@ class foursquare {
 	 * 
 	 */
 
-	public function getMapUrl($width = 300, $height = 300, $zoom = 12, $mobile = FALSE, $maptype = "roadmap") {
+	public function getMapUrl($width = 300, $height = 300, $zoom = 12, $markerText = "A", $markerColor = "blue", $mobile = FALSE, $maptype = "roadmap") {
 		$mapUrl  = "http://maps.google.com/maps/api/staticmap?";
 		$mapUrl .= "center=" . $this->venueLat . "," . $this->venueLong;
 		$mapUrl .= "&maptype=" . $maptype;
 		$mapUrl .= "&size=" . $width . "x" . $height;
 		$mapUrl .= "&zoom=" . $zoom;
 		$mapUrl .= "&sensor=true";
-		$rems = str_replace('https', 'http', $this->venueIcon->prefix);
-		$mapUrl .= "&markers=icon:" . $rems . "bg_32" . $this->venueIcon->suffix . "|" . $this->venueLat . "," . $this->venueLong . "|";
+		$markerText = strtoupper(substr($markerText, 0, 1));
+		$mapUrl .= "&markers=color:" . $markerColor . "|label:" . $markerText . "|" . $this->geolat . "," . $this->geolong . "|";
 		return $mapUrl;
 	}
 }
