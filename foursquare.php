@@ -5,8 +5,8 @@
  * Modifikasi class foursquare-php dari Elie Bursztein http://elie.im / @elie di Twitter
  * Penulis: Andi Saleh http://andisaleh.com / @andisaleh di Twitter
  * 
- * Versi 0.1
- * Lisensi GPL v3
+ * Versi: 0.1.2
+ * Lisensi: GPL v3
  * Penulis: Andi Saleh
  */
 
@@ -127,9 +127,9 @@ class foursquare {
 	 * 
 	 * @return URL peta
 	 * 
-	 * @version 0.2
-	 * @date 08/24/11 
-	 * @author Elie
+	 * @versi 0.1
+	 * @tanggal 25/03/14 
+	 * @penulis Andi Saleh
 	 * 
 	 */
 
