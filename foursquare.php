@@ -5,7 +5,7 @@
  * Modifikasi class foursquare-php dari Elie Bursztein http://elie.im / @elie di Twitter
  * Penulis: Andi Saleh http://andisaleh.com / @andisaleh di Twitter
  * 
- * Versi: 0.1.2
+ * Versi: 0.1.3
  * Lisensi: GPL v3
  * Penulis: Andi Saleh
  */
@@ -33,8 +33,8 @@ class foursquare {
 	 *
 	 * @param $number data checkin yang diambil (0: checkin terakhir, n: n checkin sebelumnya)
 	 * 
-	 * @versi 0.1
-	 * @tanggal 25/03/14 
+	 * @versi 0.2
+	 * @tanggal 31/03/14 
 	 * @penulis Andi Saleh
 	 */
 
@@ -48,7 +48,8 @@ class foursquare {
 			$this->venueNama = $root->{"venue"}->{"name"}; 
 			if (isset($root->{"venue"}->{"categories"}[0])) {
 				$this->venueKategori = $root->{"venue"}->{"categories"}[0]->{"name"};
-				$this->venueIcon = $root->{"venue"}->{"categories"}[0]->{"icon"};
+				$this->venueIcon = $root->{"venue"}->{"categories"}[0]->{"icon"}->{"prefix"} 
+							 . 'bg_32' . $root->{"venue"}->{"categories"}[0]->{"icon"}->{"suffix"} ;
 				if (isset($root->{"venue"}->{"categories"}[0]->{"parents"}[0]))
 					$this->venueTipe = $root->{"venue"}->{"categories"}[0]->{"parents"}[0];
 			}
@@ -72,7 +73,7 @@ class foursquare {
 			$this->checkinTgl = date("F j, Y, g:i a", $timestamp);
 
 			if (isset($root->{"shout"})) {
-				$this->checkinStatus = $root->{"shout"};
+				$this->checkinStatus = '&ldquo;' . $root->{"shout"} . '&rdquo;';
 			}
 
 		} 
@@ -112,7 +113,6 @@ class foursquare {
 		if ($this->rawData->{"meta"}->{"code"} != 200) {
 			return;
 		}
-		#parse the last checking data ($number == 0)
 		$this->getCheckin(0);
 	}
 
@@ -127,13 +127,12 @@ class foursquare {
 	 * 
 	 * @return URL peta
 	 * 
-	 * @versi 0.1
-	 * @tanggal 25/03/14 
+	 * @versi 0.2
+	 * @tanggal 31/03/14 
 	 * @penulis Andi Saleh
-	 * 
 	 */
 
-	public function getMapUrl($width = 300, $height = 300, $zoom = 12, $markerText = "A", $markerColor = "blue", $mobile = FALSE, $maptype = "roadmap") {
+	public function getMapUrl($width = 300, $height = 300, $zoom = 14, $markerText = "", $markerColor = "blue", $mobile = FALSE, $maptype = "roadmap") {
 		$mapUrl  = "http://maps.google.com/maps/api/staticmap?";
 		$mapUrl .= "center=" . $this->venueLat . "," . $this->venueLong;
 		$mapUrl .= "&maptype=" . $maptype;
@@ -141,7 +140,7 @@ class foursquare {
 		$mapUrl .= "&zoom=" . $zoom;
 		$mapUrl .= "&sensor=true";
 		$markerText = strtoupper(substr($markerText, 0, 1));
-		$mapUrl .= "&markers=color:" . $markerColor . "|label:" . $markerText . "|" . $this->geolat . "," . $this->geolong . "|";
+		$mapUrl .= "&markers=color:" . $markerColor . "|label:" . $markerText . "|" . $this->venueLat . "," . $this->venueLong . "|";
 		return $mapUrl;
 	}
 }
