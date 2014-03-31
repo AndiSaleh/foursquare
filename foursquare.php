@@ -1,13 +1,12 @@
 <?php
 
 /*
- * Menghubungkan ke akun Foursquare dan menampilkan data chekin terakhir
+ * Menghubungkan ke akun Foursquare dan menampilkan data checkin terakhir
  * Modifikasi class foursquare-php dari Elie Bursztein http://elie.im / @elie di Twitter
  * Penulis: Andi Saleh http://andisaleh.com / @andisaleh di Twitter
  * 
- * Versi: 0.1.3
+ * Versi: 0.1.4
  * Lisensi: GPL v3
- * Penulis: Andi Saleh
  */
 
 class foursquare {
@@ -32,10 +31,6 @@ class foursquare {
 	 * Parse dan ekstrak data checkin Foursquare
 	 *
 	 * @param $number data checkin yang diambil (0: checkin terakhir, n: n checkin sebelumnya)
-	 * 
-	 * @versi 0.2
-	 * @tanggal 31/03/14 
-	 * @penulis Andi Saleh
 	 */
 
 	function getCheckin($position = 0) {
@@ -86,10 +81,6 @@ class foursquare {
 	 *
 	 * @param $token Foursquare oAuth token v2
 	 * @param $safe nonaktifkan validasi sertifikat SSL
-	 * 
-	 * @versi 0.1
-	 * @tanggal 25/03/14 
-	 * @penulis Andi Saleh
 	 */
 
 	function __construct($token, $safe = false) {
@@ -121,15 +112,11 @@ class foursquare {
 	 * 
 	 * @param $width lebar peta
 	 * @param $height tinggi peta
-	 * @param $zoom tingkat pembesaran, default: 12
+	 * @param $zoom tingkat pembesaran, default: 14
 	 * @param $mobile untuk halaman mobile, default: false
 	 * @param $maptype tipe peta, pilihan: "roadmap", "satellite", "hybrid", dan "terrain". Default: "roadmap"
 	 * 
 	 * @return URL peta
-	 * 
-	 * @versi 0.2
-	 * @tanggal 31/03/14 
-	 * @penulis Andi Saleh
 	 */
 
 	public function getMapUrl($width = 300, $height = 300, $zoom = 14, $markerText = "", $markerColor = "blue", $mobile = FALSE, $maptype = "roadmap") {
