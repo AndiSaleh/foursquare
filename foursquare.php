@@ -13,7 +13,7 @@ class foursquare {
 
 	private $token = "";
 	private $rawData = "";
-	private $url = "https://api.foursquare.com/v2/users/self/checkins?v=20131016&limit=1&locale=id&oauth_token=";
+    	private $url = "https://api.foursquare.com/v2/users/self/checkins?v=20140806&m=swarm&limit=1&locale=id&oauth_token=";
 	public $venueNama = "";
 	public $venueKategori = "";
 	public $venueIcon = "http://foursquare.com/img/categories/question.png";
@@ -90,11 +90,11 @@ class foursquare {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $req);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_USERAGENT, "fetcher " . time());
-		curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $safe);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		//curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		//curl_setopt($ch, CURLOPT_USERAGENT, "fetcher " . time());
+		//curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $safe);
+		//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		$data = curl_exec($ch);
 		curl_close($ch);
 
